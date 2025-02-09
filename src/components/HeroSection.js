@@ -75,7 +75,7 @@ const HeroSection = () => {
       >
         <motion.h1 
           animate={controls}
-          className="text-7xl font-bold mb-8 tracking-tight"
+          className="text-7xl font-bold tracking-tight"
           style={{ display: 'inline-block' }}
         >
           <span className={darkMode ? 'text-gray-300' : 'text-gray-600'}>
@@ -93,6 +93,30 @@ const HeroSection = () => {
             |
           </motion.span>
         </motion.h1>
+
+        {/* Reflection */}
+        <div className="reflection-container">
+          <motion.h1 
+            animate={controls}
+            className="text-7xl font-bold tracking-tight reflection"
+            style={{ display: 'inline-block' }}
+          >
+            <span className={darkMode ? 'text-gray-300' : 'text-gray-600'}>
+              {text.slice(0, prefix.length)}
+            </span>
+            <span className="bg-gradient-to-r from-[#4ECCA3] via-[#2EAF7D] to-[#45B08C] text-transparent bg-clip-text bg-[size:200%] px-2">
+              {text.slice(prefix.length)}
+            </span>
+            <motion.span
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 0 }}
+              transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
+              className="ml-1 inline-block bg-gradient-to-r from-[#4ECCA3] via-[#2EAF7D] to-[#45B08C] text-transparent bg-clip-text"
+            >
+              |
+            </motion.span>
+          </motion.h1>
+        </div>
 
         {/* Subtitle */}
         <motion.p

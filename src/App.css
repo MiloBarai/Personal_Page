@@ -84,3 +84,14 @@ body {
     transform: rotate(360deg);
   }
 }
+
+.reflection {
+  transform: scaleY(-1);
+  opacity: 0.3;
+  -webkit-mask-image: linear-gradient(transparent 50%, white);
+  mask-image: linear-gradient(transparent 50%, white);
+}
+
+.reflection-container {
+  margin-top: -5px;
+}

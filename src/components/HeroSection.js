@@ -1,13 +1,22 @@
 import { motion, useAnimationControls } from 'framer-motion';
-import { Github, Linkedin, Mail } from 'lucide-react';
+import { Github, Linkedin, Mail, Moon, Sun } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const HeroSection = () => {
   const [text, setText] = useState("");
+  const [darkMode, setDarkMode] = useState(true);
   const prefix = "Hello, I'm ";
   const name = "Milo";
   const fullText = prefix + name;
   const controls = useAnimationControls();
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
 
   useEffect(() => {
     let currentText = "";
@@ -37,22 +46,24 @@ const HeroSection = () => {
   }, [controls, fullText]);
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#0a0a0a] to-[#121212] text-white overflow-hidden">
-      {/* Gradient Orb Effects */}
-      <div className="absolute top-0 -left-4 w-72 h-72 bg-emerald-500 rounded-full mix-blend-multiply filter blur-xl opacity-[0.05] animate-blob" />
-      <div className="absolute top-0 -right-4 w-72 h-72 bg-emerald-400 rounded-full mix-blend-multiply filter blur-xl opacity-[0.05] animate-blob animation-delay-2000" />
-      <div className="absolute -bottom-8 left-20 w-72 h-72 bg-emerald-600 rounded-full mix-blend-multiply filter blur-xl opacity-[0.05] animate-blob animation-delay-4000" />
+    <section className={`relative min-h-screen flex flex-col items-center justify-center transition-colors duration-300 ${
+      darkMode 
+        ? 'bg-gradient-to-b from-[#0a0a0a] to-[#121212]' 
+        : 'bg-gradient-to-b from-gray-50 to-white'
+    }`}>
 
       {/* Theme toggle */}
       <motion.button
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="absolute top-8 right-8 p-2 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-sm transition-all duration-300"
+        onClick={() => setDarkMode(!darkMode)}
+        className={`absolute top-8 right-8 p-2 rounded-full backdrop-blur-sm transition-all duration-300 ${
+          darkMode 
+            ? 'bg-white/10 hover:bg-white/20 text-white' 
+            : 'bg-black/10 hover:bg-black/20 text-black'
+        }`}
       >
-        <span className="sr-only">Toggle theme</span>
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707" />
-        </svg>
+        {darkMode ? <Sun size={24} /> : <Moon size={24} />}
       </motion.button>
 
       {/* Main content */}
@@ -67,7 +78,7 @@ const HeroSection = () => {
           className="text-7xl font-bold mb-8 tracking-tight"
           style={{ display: 'inline-block' }}
         >
-          <span className="text-gray-300">
+          <span className={darkMode ? 'text-gray-300' : 'text-gray-600'}>
             {text.slice(0, prefix.length)}
           </span>
           <span className="bg-gradient-to-r from-[#4ECCA3] via-[#2EAF7D] to-[#45B08C] text-transparent bg-clip-text bg-[size:200%] px-2">
@@ -88,7 +99,7 @@ const HeroSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 2.5 }}
-          className="text-xl text-gray-400 mb-8"
+          className={`text-xl mb-8 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}
         >
           Software Developer
         </motion.p>
@@ -100,24 +111,32 @@ const HeroSection = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 2.8 }}
         >
-          <SocialLink href="https://github.com/yourusername" icon={<Github size={24} />} />
-          <SocialLink href="https://linkedin.com/in/yourusername" icon={<Linkedin size={24} />} />
-          <SocialLink href="mailto:your.email@example.com" icon={<Mail size={24} />} />
+          <SocialLink href="https://github.com/MiloBarai" icon={<Github size={24} />} darkMode={darkMode} />
+          <SocialLink href="https://linkedin.com/in/milo-barai-3a5262120" icon={<Linkedin size={24} />} darkMode={darkMode} />
+          <SocialLink href="mailto:your.email@example.com" icon={<Mail size={24} />} darkMode={darkMode} />
         </motion.div>
       </motion.div>
 
       {/* Subtle gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none" />
+      <div className={`absolute inset-0 bg-gradient-to-t pointer-events-none ${
+        darkMode 
+          ? 'from-black/10 via-transparent to-transparent' 
+          : 'from-gray-100/20 via-transparent to-transparent'
+      }`} />
     </section>
   );
 };
 
-const SocialLink = ({ href, icon }) => (
+const SocialLink = ({ href, icon, darkMode }) => (
   <motion.a
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="p-3 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-sm transition-all duration-300 hover:text-[#4ECCA3] text-gray-300"
+    className={`p-3 rounded-full backdrop-blur-sm transition-all duration-300 ${
+      darkMode 
+        ? 'bg-black/50 hover:bg-black/70 text-gray-300 hover:text-[#4ECCA3]' 
+        : 'bg-black/5 hover:bg-black/10 text-gray-600 hover:text-[#2EAF7D]'
+    }`}
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.95 }}
   >

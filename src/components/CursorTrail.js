@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { cursorState } from '../store/cursorState';
 
 const CursorTrail = () => {
   const [points, setPoints] = useState([]);
@@ -15,6 +16,9 @@ const CursorTrail = () => {
 
   useEffect(() => {
     const updateMousePosition = (e) => {
+      // Don't create new trail points if hovering over a magnetic element
+      if (cursorState.isHoveringMagnetic) return;
+
       const currentTime = Date.now();
       const distance = getDistance(
         lastPosition.current.x,

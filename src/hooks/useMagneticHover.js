@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { cursorState } from '../store/cursorState';
 
 // Shared state to track currently magnetized element
 let currentMagnetizedElement = null;
@@ -16,6 +17,7 @@ export const useMagneticHover = (strength = 0.5) => {
 
     const handleMouseEnter = () => {
       isHovered.current = true;
+      cursorState.isHoveringMagnetic = true;
     };
 
     const handleMouseMove = (e) => {
@@ -56,6 +58,7 @@ export const useMagneticHover = (strength = 0.5) => {
 
     const handleMouseLeave = () => {
       isHovered.current = false;
+      cursorState.isHoveringMagnetic = false;
       if (currentMagnetizedElement === element) {
         currentMagnetizedElement = null;
       }
@@ -75,6 +78,7 @@ export const useMagneticHover = (strength = 0.5) => {
       // Clean up if this element was the magnetized one
       if (currentMagnetizedElement === element) {
         currentMagnetizedElement = null;
+        cursorState.isHoveringMagnetic = false;
       }
     };
   }, [strength]);

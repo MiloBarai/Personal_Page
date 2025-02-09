@@ -148,7 +148,7 @@ const ProjectCard = ({ title, description, image, technologies, link }) => {
 const ProjectRow = ({ projects, rowIndex }) => {
   return (
     <motion.div 
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center"
       initial="hidden"
       whileInView="visible"
       viewport={{ 
@@ -207,7 +207,7 @@ const ProjectSection = () => {
     <section id="projects-section" className={`relative min-h-screen py-20 transition-colors duration-300 ${
       darkMode ? 'bg-[#0a0a0a]' : 'bg-gray-50'
     }`}>
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 flex flex-col items-center">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

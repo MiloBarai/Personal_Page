@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import HeroSection from './components/HeroSection';
+import CursorTrail from './components/CursorTrail';
 import './App.css';
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
 
   return (
     <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
+      <CursorTrail />
       <main>
         <HeroSection />
       </main>

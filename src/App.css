@@ -95,3 +95,7 @@ body {
 .reflection-container {
   margin-top: -5px;
 }
+
+a, button {
+  cursor: none;
+}

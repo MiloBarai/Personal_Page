@@ -4,50 +4,41 @@ import { cursorState } from '../store/cursorState';
 
 const CursorTrail = () => {
   const [points, setPoints] = useState([]);
-  const maxPoints = 25;
-  const lastRippleTime = useRef(0);
+  const maxPoints = 20; // Increased for smoother trail
   const lastPosition = useRef({ x: 0, y: 0 });
-  const rippleCooldown = 100; // milliseconds between ripples
-  const minDistance = 30; // minimum pixels between ripples
-
-  const getDistance = (x1, y1, x2, y2) => {
-    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-  };
+  const lastUpdateTime = useRef(0);
+  const updateInterval = 16; // Decreased for more frequent updates (60fps)
 
   const isInHeroSection = (mouseY) => {
-    const heroSection = document.querySelector('section'); // Gets the first section (hero)
+    const heroSection = document.querySelector('section');
     if (!heroSection) return false;
-    
     const { top, bottom } = heroSection.getBoundingClientRect();
     return mouseY >= top && mouseY <= bottom;
   };
 
   useEffect(() => {
     const updateMousePosition = (e) => {
-      // Don't create new trail points if hovering over a magnetic element
-      // or if not in hero section
       if (cursorState.isHoveringMagnetic || !isInHeroSection(e.clientY)) {
-        setPoints([]); // Clear points when leaving hero section
+        setPoints([]);
         return;
       }
 
       const currentTime = Date.now();
-      const distance = getDistance(
-        lastPosition.current.x,
-        lastPosition.current.y,
-        e.clientX,
-        e.clientY
-      );
+      if (currentTime - lastUpdateTime.current < updateInterval) return;
 
-      if (currentTime - lastRippleTime.current >= rippleCooldown && 
-          distance >= minDistance) {
-        setPoints(prevPoints => {
-          const newPoints = [...prevPoints, { x: e.clientX, y: e.clientY, timestamp: currentTime }];
-          return newPoints.slice(-maxPoints);
-        });
-        lastRippleTime.current = currentTime;
-        lastPosition.current = { x: e.clientX, y: e.clientY };
-      }
+      lastUpdateTime.current = currentTime;
+      const newPoint = {
+        x: e.clientX,
+        y: e.clientY,
+        timestamp: currentTime
+      };
+
+      setPoints(prevPoints => {
+        const newPoints = [...prevPoints, newPoint];
+        return newPoints.slice(-maxPoints);
+      });
+
+      lastPosition.current = { x: e.clientX, y: e.clientY };
     };
 
     window.addEventListener('mousemove', updateMousePosition);
@@ -58,28 +49,23 @@ const CursorTrail = () => {
     <div className="pointer-events-none fixed inset-0 z-50">
       <svg className="w-full h-full">
         <AnimatePresence>
-          {points.map((point) => (
-            <motion.circle
-              key={point.timestamp}
-              cx={point.x}
-              cy={point.y}
-              r="8"
-              fill="none"
-              stroke="rgba(78, 204, 163, 0.5)"
-              strokeWidth="2"
-              initial={{ scale: 0, opacity: 0.8 }}
-              animate={{ 
-                scale: [0, 3],
-                opacity: [0.8, 0],
-                strokeWidth: [0.5, 2]
-              }}
-              transition={{ 
-                duration: 1,
-                ease: "easeOut",
-                times: [0, 1]
-              }}
-              exit={{ opacity: 0 }}
-            />
+          {points.map((point, index) => (
+            index > 0 && (
+              <motion.line
+                key={point.timestamp}
+                x1={points[index - 1].x}
+                y1={points[index - 1].y}
+                x2={point.x}
+                y2={point.y}
+                stroke="rgba(78, 204, 163, 0.5)"
+                strokeWidth="10"
+                strokeLinecap="round"
+                initial={{ opacity: 0.5, pathLength: 0 }}
+                animate={{ opacity: 0, pathLength: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+              />
+            )
           ))}
         </AnimatePresence>
       </svg>

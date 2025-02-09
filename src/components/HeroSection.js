@@ -4,7 +4,10 @@ import { useState, useEffect } from 'react';
 
 const HeroSection = () => {
   const [text, setText] = useState("");
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem('darkMode');
+    return savedMode !== null ? JSON.parse(savedMode) : true;
+  });
   const prefix = "Hello, I'm ";
   const name = "Milo";
   const fullText = prefix + name;
@@ -16,6 +19,7 @@ const HeroSection = () => {
     } else {
       document.documentElement.classList.remove('dark');
     }
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
   }, [darkMode]);
 
   useEffect(() => {

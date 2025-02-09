@@ -2,29 +2,18 @@ import { motion, useAnimationControls } from 'framer-motion';
 import { Github, Linkedin, Mail, Moon, Sun } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useMagneticHover } from '../hooks/useMagneticHover';
+import { useTheme } from '../context/ThemeContext';
 import CursorTrail from './CursorTrail';
 
 const HeroSection = () => {
   const [text, setText] = useState("");
-  const [darkMode, setDarkMode] = useState(() => {
-    const savedMode = localStorage.getItem('darkMode');
-    return savedMode !== null ? JSON.parse(savedMode) : true;
-  });
+  const { darkMode, setDarkMode } = useTheme();
   const prefix = "Hello, I'm ";
   const name = "Milo";
   const fullText = prefix + name;
   const controls = useAnimationControls();
 
   const themeButtonRef = useMagneticHover(0.3);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    localStorage.setItem('darkMode', JSON.stringify(darkMode));
-  }, [darkMode]);
 
   useEffect(() => {
     let currentText = "";

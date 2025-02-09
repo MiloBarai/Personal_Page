@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { useMagneticHover } from '../hooks/useMagneticHover';
+import { useTheme } from '../context/ThemeContext';
 
-const ProjectCard = ({ title, description, image, technologies, link, darkMode }) => {
+const ProjectCard = ({ title, description, image, technologies, link }) => {
+  const { darkMode } = useTheme();
   const projectButtonRef = useMagneticHover(0.3);
 
   return (
@@ -141,7 +143,7 @@ const ProjectCard = ({ title, description, image, technologies, link, darkMode }
   );
 };
 
-const ProjectRow = ({ projects, darkMode, rowIndex }) => {
+const ProjectRow = ({ projects, rowIndex }) => {
   return (
     <motion.div 
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -165,14 +167,15 @@ const ProjectRow = ({ projects, darkMode, rowIndex }) => {
         <ProjectCard 
           key={index} 
           {...project} 
-          darkMode={darkMode} 
         />
       ))}
     </motion.div>
   );
 };
 
-const ProjectSection = ({ darkMode }) => {
+const ProjectSection = () => {
+  const { darkMode } = useTheme();
+
   const allProjects = [
     {
       title: "Project 1",
@@ -223,7 +226,6 @@ const ProjectSection = ({ darkMode }) => {
             <ProjectRow 
               key={index}
               projects={rowProjects}
-              darkMode={darkMode}
               rowIndex={index}
             />
           ))}

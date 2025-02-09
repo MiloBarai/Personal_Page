@@ -14,10 +14,22 @@ const CursorTrail = () => {
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
   };
 
+  const isInHeroSection = (mouseY) => {
+    const heroSection = document.querySelector('section'); // Gets the first section (hero)
+    if (!heroSection) return false;
+    
+    const { top, bottom } = heroSection.getBoundingClientRect();
+    return mouseY >= top && mouseY <= bottom;
+  };
+
   useEffect(() => {
     const updateMousePosition = (e) => {
       // Don't create new trail points if hovering over a magnetic element
-      if (cursorState.isHoveringMagnetic) return;
+      // or if not in hero section
+      if (cursorState.isHoveringMagnetic || !isInHeroSection(e.clientY)) {
+        setPoints([]); // Clear points when leaving hero section
+        return;
+      }
 
       const currentTime = Date.now();
       const distance = getDistance(

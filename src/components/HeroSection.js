@@ -2,6 +2,7 @@ import { motion, useAnimationControls } from 'framer-motion';
 import { Github, Linkedin, Mail, Moon, Sun } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useMagneticHover } from '../hooks/useMagneticHover';
+import CursorTrail from './CursorTrail';
 
 const HeroSection = () => {
   const [text, setText] = useState("");
@@ -58,6 +59,7 @@ const HeroSection = () => {
         ? 'bg-[#0a0a0a]' 
         : 'bg-gray-50'
     }`}>
+      <CursorTrail />
       {/* Add blur overlay */}
       <div className={`absolute inset-0 ${
         darkMode 

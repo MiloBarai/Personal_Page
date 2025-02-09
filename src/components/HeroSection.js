@@ -65,9 +65,11 @@ const HeroSection = () => {
         onClick={() => setDarkMode(!darkMode)}
         className={`absolute top-8 right-8 p-2 rounded-full transition-all duration-300 z-10 ${
           darkMode 
-            ? 'bg-white/10 hover:bg-white/20 text-white' 
-            : 'bg-black/10 hover:bg-black/20 text-black'
+            ? 'bg-white/10 hover:bg-[#4ECCA3]/20 text-white hover:text-[#4ECCA3] ring-1 ring-white/20 hover:ring-[#4ECCA3]/50' 
+            : 'bg-black/5 hover:bg-[#2EAF7D]/20 text-gray-600 hover:text-[#2EAF7D] ring-1 ring-black/10 hover:ring-[#2EAF7D]/50'
         }`}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
       >
         {darkMode ? <Sun size={24} /> : <Moon size={24} />}
       </motion.button>
@@ -157,8 +159,8 @@ const SocialLink = ({ href, icon, darkMode }) => (
     rel="noopener noreferrer"
     className={`p-3 rounded-full transition-all duration-300 ${
       darkMode 
-        ? 'bg-black/50 hover:bg-black/70 text-gray-300 hover:text-[#4ECCA3]' 
-        : 'bg-black/5 hover:bg-black/10 text-gray-600 hover:text-[#2EAF7D]'
+        ? 'bg-white/10 hover:bg-[#4ECCA3]/20 text-white hover:text-[#4ECCA3] ring-1 ring-white/20 hover:ring-[#4ECCA3]/50' 
+        : 'bg-black/5 hover:bg-[#2EAF7D]/20 text-gray-600 hover:text-[#2EAF7D] ring-1 ring-black/10 hover:ring-[#2EAF7D]/50'
     }`}
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.95 }}

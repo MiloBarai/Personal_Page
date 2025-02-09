@@ -9,10 +9,13 @@ export const ThemeProvider = ({ children }) => {
   });
 
   useEffect(() => {
+    const htmlElement = document.documentElement;
     if (darkMode) {
-      document.documentElement.classList.add('dark');
+      htmlElement.classList.add('dark');
+      htmlElement.classList.remove('light');
     } else {
-      document.documentElement.classList.remove('dark');
+      htmlElement.classList.add('light');
+      htmlElement.classList.remove('dark');
     }
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
   }, [darkMode]);

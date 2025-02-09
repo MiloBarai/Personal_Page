@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { useMagneticHover } from '../hooks/useMagneticHover';
 import { useTheme } from '../context/ThemeContext';
+import ScrollArrow from './ScrollArrow';
+import { useNextSection } from '../hooks/useNextSection';
 
 const ProjectCard = ({ title, description, image, technologies, link }) => {
   const { darkMode } = useTheme();
@@ -175,6 +177,7 @@ const ProjectRow = ({ projects, rowIndex }) => {
 
 const ProjectSection = () => {
   const { darkMode } = useTheme();
+  const { hasNext, hasPrevious, scrollToNext, scrollToPrevious } = useNextSection('projects-section');
 
   const allProjects = [
     {
@@ -201,11 +204,9 @@ const ProjectSection = () => {
   }
 
   return (
-    <section 
-      className={`min-h-screen py-20 transition-colors duration-300 ${
-        darkMode ? 'bg-[#0a0a0a]' : 'bg-gray-50'
-      }`}
-    >
+    <section id="projects-section" className={`relative min-h-screen py-20 transition-colors duration-300 ${
+      darkMode ? 'bg-[#0a0a0a]' : 'bg-gray-50'
+    }`}>
       <div className="container mx-auto px-4">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -231,6 +232,11 @@ const ProjectSection = () => {
           ))}
         </div>
       </div>
+      
+      <ScrollArrow 
+        onClick={scrollToNext}
+        hasNext={hasNext}
+      />
     </section>
   );
 };

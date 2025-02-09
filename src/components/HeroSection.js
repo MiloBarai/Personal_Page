@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useMagneticHover } from '../hooks/useMagneticHover';
 import { useTheme } from '../context/ThemeContext';
 import CursorTrail from './CursorTrail';
+import ScrollArrow from './ScrollArrow';
+import { useNextSection } from '../hooks/useNextSection';
 
 const HeroSection = () => {
   const [text, setText] = useState("");
@@ -14,6 +16,7 @@ const HeroSection = () => {
   const controls = useAnimationControls();
 
   const themeButtonRef = useMagneticHover(0.3);
+  const { hasNext, scrollToNext } = useNextSection('hero-section');
 
   useEffect(() => {
     let currentText = "";
@@ -43,7 +46,7 @@ const HeroSection = () => {
   }, [controls, fullText]);
 
   return (
-    <section className={`relative min-h-screen flex flex-col items-center justify-center transition-colors duration-300 ${
+    <section id="hero-section" className={`relative min-h-screen flex flex-col items-center justify-center transition-colors duration-300 ${
       darkMode 
         ? 'bg-[#0a0a0a]' 
         : 'bg-gray-50'
@@ -145,6 +148,11 @@ const HeroSection = () => {
           <SocialLink href="mailto:your.email@example.com" icon={<Mail size={24} />} darkMode={darkMode} />
         </motion.div>
       </motion.div>
+
+      <ScrollArrow 
+        onClick={scrollToNext}
+        hasNext={hasNext}
+      />
     </section>
   );
 };

@@ -99,3 +99,20 @@ body {
 a, button {
   cursor: none;
 }
+
+/* Remove all previous scrollbar styles and just keep these */
+
+/* Hide default scrollbar */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+* {
+  scrollbar-width: none;
+}
+
+/* Ensure smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}

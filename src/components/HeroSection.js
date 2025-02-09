@@ -48,16 +48,22 @@ const HeroSection = () => {
   return (
     <section className={`relative min-h-screen flex flex-col items-center justify-center transition-colors duration-300 ${
       darkMode 
-        ? 'bg-gradient-to-b from-[#0a0a0a] to-[#121212]' 
-        : 'bg-gradient-to-b from-gray-50 to-white'
+        ? 'bg-[#0a0a0a]' 
+        : 'bg-gray-50'
     }`}>
+      {/* Add blur overlay */}
+      <div className={`absolute inset-0 ${
+        darkMode 
+          ? 'bg-black/10' 
+          : 'bg-white/10'
+      }`} />
 
       {/* Theme toggle */}
       <motion.button
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         onClick={() => setDarkMode(!darkMode)}
-        className={`absolute top-8 right-8 p-2 rounded-full backdrop-blur-sm transition-all duration-300 ${
+        className={`absolute top-8 right-8 p-2 rounded-full transition-all duration-300 z-10 ${
           darkMode 
             ? 'bg-white/10 hover:bg-white/20 text-white' 
             : 'bg-black/10 hover:bg-black/20 text-black'
@@ -140,13 +146,6 @@ const HeroSection = () => {
           <SocialLink href="mailto:your.email@example.com" icon={<Mail size={24} />} darkMode={darkMode} />
         </motion.div>
       </motion.div>
-
-      {/* Subtle gradient overlay */}
-      <div className={`absolute inset-0 bg-gradient-to-t pointer-events-none ${
-        darkMode 
-          ? 'from-black/10 via-transparent to-transparent' 
-          : 'from-gray-100/20 via-transparent to-transparent'
-      }`} />
     </section>
   );
 };
@@ -156,7 +155,7 @@ const SocialLink = ({ href, icon, darkMode }) => (
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className={`p-3 rounded-full backdrop-blur-sm transition-all duration-300 ${
+    className={`p-3 rounded-full transition-all duration-300 ${
       darkMode 
         ? 'bg-black/50 hover:bg-black/70 text-gray-300 hover:text-[#4ECCA3]' 
         : 'bg-black/5 hover:bg-black/10 text-gray-600 hover:text-[#2EAF7D]'

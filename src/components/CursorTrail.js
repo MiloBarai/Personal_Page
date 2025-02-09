@@ -5,17 +5,32 @@ const CursorTrail = () => {
   const [points, setPoints] = useState([]);
   const maxPoints = 25;
   const lastRippleTime = useRef(0);
+  const lastPosition = useRef({ x: 0, y: 0 });
   const rippleCooldown = 100; // milliseconds between ripples
+  const minDistance = 30; // minimum pixels between ripples
+
+  const getDistance = (x1, y1, x2, y2) => {
+    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+  };
 
   useEffect(() => {
     const updateMousePosition = (e) => {
       const currentTime = Date.now();
-      if (currentTime - lastRippleTime.current >= rippleCooldown) {
+      const distance = getDistance(
+        lastPosition.current.x,
+        lastPosition.current.y,
+        e.clientX,
+        e.clientY
+      );
+
+      if (currentTime - lastRippleTime.current >= rippleCooldown && 
+          distance >= minDistance) {
         setPoints(prevPoints => {
           const newPoints = [...prevPoints, { x: e.clientX, y: e.clientY, timestamp: currentTime }];
           return newPoints.slice(-maxPoints);
         });
         lastRippleTime.current = currentTime;
+        lastPosition.current = { x: e.clientX, y: e.clientY };
       }
     };
 

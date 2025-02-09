@@ -55,7 +55,7 @@ const CursorTrail = () => {
               animate={{ 
                 scale: [0, 3],
                 opacity: [0.8, 0],
-                strokeWidth: [2, 0.5]
+                strokeWidth: [0.5, 2]
               }}
               transition={{ 
                 duration: 1,
